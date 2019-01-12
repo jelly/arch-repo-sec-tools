@@ -82,11 +82,11 @@ def read_file(full, filename):
     return res
 
 
-def main(full, verbose, repo=DEFAULT_SOURCE_DIR, processes=cpu_count() * 2):
+def main(full, verbose, repodir, repos, processes=cpu_count() * 2):
     tasks = []
-    for subdir in SOURCE_WHITELIST:
+    for subdir in repos:
         for arch in ARCHS:
-            directory = join(repo, subdir, 'os', arch)
+            directory = join(repodir, subdir, 'os', arch)
             for filename in glob(join(directory, f'*{PKG_EXT}')):
                 tasks.append((filename))
 
@@ -110,9 +110,10 @@ def main(full, verbose, repo=DEFAULT_SOURCE_DIR, processes=cpu_count() * 2):
 
 if __name__ == '__main__':
     parser = ArgumentParser(description='Repro Sec Checker')
-    parser.add_argument('--repo', default=DEFAULT_SOURCE_DIR, help=f'root directory of the repo (default: {DEFAULT_SOURCE_DIR})')
+    parser.add_argument('--repodir', default=DEFAULT_SOURCE_DIR, help=f'root directory of the repo (default: {DEFAULT_SOURCE_DIR})')
+    parser.add_argument('--repos', nargs='+', type=str, default=SOURCE_WHITELIST, help=f'default repo\'s to scan (default: {SOURCE_WHITELIST}')
     parser.add_argument('--processes', type=int, default=cpu_count() * 2, help=f'number of parallel processes (default: {cpu_count()*2})')
     parser.add_argument('--verbose', action='store_true', help='output the binary\'s which lack a hardening feature')
     parser.add_argument('--full', action='store_true', help=f'Scan every binary instead of stopping when one binary is not fully hardened')
     args = parser.parse_args()
-    main(args.full, args.verbose, args.repo, args.processes)
+    main(args.full, args.verbose, args.repodir, args.repos, args.processes)
