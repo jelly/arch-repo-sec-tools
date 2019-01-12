@@ -115,5 +115,4 @@ if __name__ == '__main__':
     parser.add_argument('--verbose', action='store_true', help='output the binary\'s which lack a hardening feature')
     parser.add_argument('--full', action='store_true', help=f'Scan every binary instead of stopping when one binary is not fully hardened')
     args = parser.parse_args()
-    print(args.full)
     main(args.full, args.verbose, args.repo, args.processes)
