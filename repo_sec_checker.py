@@ -112,7 +112,7 @@ if __name__ == '__main__':
     parser = ArgumentParser(description='Repro Sec Checker')
     parser.add_argument('--repo', default=DEFAULT_SOURCE_DIR, help=f'root directory of the repo (default: {DEFAULT_SOURCE_DIR})')
     parser.add_argument('--processes', type=int, default=cpu_count() * 2, help=f'number of parallel processes (default: {cpu_count()*2})')
-    parser.add_argument('--verbose', action='store_true')
+    parser.add_argument('--verbose', action='store_true', help='output the binary\'s which lack a hardening feature')
     parser.add_argument('--full', action='store_true', help=f'Scan every binary instead of stopping when one binary is not fully hardened')
     args = parser.parse_args()
     print(args.full)
